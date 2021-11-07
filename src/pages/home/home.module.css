@@ -61,6 +61,10 @@ label {
 
 @media screen and (max-width: 600px) {
   .modal-container {
-    max-width: 350px;
+    max-width: 300px;
+  }
+
+  .error {
+    font-size: 13px;
   }
 }

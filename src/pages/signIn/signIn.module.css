@@ -12,8 +12,9 @@
 }
 
 p {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 20px;
+  color: #444;
 }
 
 form {
@@ -29,6 +30,7 @@ form > div > input {
 .error {
   width: 100%;
   font-size: 15px;
+  font-weight: normal;
   color: red;
 }
 
@@ -43,10 +45,14 @@ label {
 
 @media screen and (max-width: 600px) {
   .section {
-    max-width: 350px;
+    max-width: 300px;
   }
 
   .section > p {
-    font-size: 16px;
+    font-size: 12px;
+  }
+  
+  .error {
+    font-size: 13px;
   }
 }

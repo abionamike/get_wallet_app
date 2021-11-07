@@ -57,4 +57,4 @@ const Main = ({ setShowModal, setShowSidebar, walletData }) => {
   )
 }
 
-export default Main
+export default Main;
