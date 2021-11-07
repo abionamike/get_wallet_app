@@ -60,7 +60,7 @@ const TransactionHistory = () => {
     } else {
       navigate('/sign-in');
     }
-  }, []);
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
