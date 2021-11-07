@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+.modal-container {
+  background: #fff;
+  border-radius: 10px;
+  width: 400px;
+  /* height: 500px; */
+  padding: 30px;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.close > svg {
+  cursor: pointer;
+}
+
+form {
+  margin-top: 30px;
+  width: 100%;
+}
+
+form > div > input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.error {
+  width: 100%;
+  color: red;
+}
+
+form > button {
+  margin-top: 35px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}

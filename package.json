@@ -2,12 +2,18 @@
   "name": "get_wallet_app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://api-staging.getwallets.co/v1",
   "dependencies": {
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.24.0",
+    "dayjs": "^1.10.7",
+    "jsonwebtoken": "^8.5.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^6.0.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
