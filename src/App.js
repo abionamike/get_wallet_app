@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/navbar';
-import Create from './pages/Create';
-import FundWallet from './pages/FundWallet';
-import History from './pages/History';
-import Home from './pages/Home';
+import TransactionHistory from './pages/transactionHistory';
+import SignIn from './pages/signIn';
+import Home from './pages/home';
 
 function App() {
   return (
@@ -13,9 +13,8 @@ function App() {
       <main className="container">
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/:id" element={<Create />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/fund-wallet" element={<FundWallet />} />
+          <Route path="/:id" element={<TransactionHistory />} />
+          <Route path="/sign-in" element={<SignIn />} />
         </Routes>
       </main> 
     </BrowserRouter>

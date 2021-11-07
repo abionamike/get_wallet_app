@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import Button from '../components/button';
-import generateToken from '../utils/generateToken';
-import styles from './login.module.css';
+import Button from '../../components/button';
+import generateToken from '../../utils/generateToken';
+import styles from './signIn.module.css';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 
-const Login = () => {
+const SignIn = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -33,7 +33,7 @@ const Login = () => {
       if(token) {
         localStorage.setItem('user_data', JSON.stringify({ token, email }));
 
-        const decoded = jwt.verify(token, 'jsjjsksiwiiieiei');
+        const decoded = jwt.verify(token, process.env.REACT_APP_JWT_SECRET);
 
         if(decoded) {
           navigate('/');
@@ -41,19 +41,17 @@ const Login = () => {
 
         setTimeout(() => {
           localStorage.removeItem('user_data');
-          navigate('/history');
-          console.log('timeout')
+          navigate('/sign-in');
         }, (decoded.exp - decoded.iat) * 1000);
       }
     }
-    console.log('here');
   }
 
   return (
     <div className={styles["section"]}>
       <h1 className={styles.title}>get_wallet_app</h1>
 
-      <p>Enter you email addrss to be signed in for 1 hr</p>
+      <p>Enter you email address to be signed in for 1 hr</p>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email <sup style={{ color: 'red' }}>*</sup></label>
@@ -66,4 +64,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default SignIn;

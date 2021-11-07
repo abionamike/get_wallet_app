@@ -1,11 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Button from "../components/button";
-import Main from "../components/main";
-import Sidebar from "../components/sidebar";
+import Button from "../../components/button";
+import Main from "../../components/main";
+import SidebarMobile from "../../components/sidebarMobile";
 import styles from './home.module.css';
+import jwt from 'jsonwebtoken';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+  
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [inValidEmail, setInValidEmail] = useState(false);
@@ -13,32 +17,34 @@ const Home = () => {
   const [data, setData] = useState(null);
   const [walletData, setWalletData] = useState(JSON.parse(localStorage.getItem('user_wallet_data')));
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     setWalletData((prev) => ({  ...prev, loading: true }));
-
-  //     const config = {
-  //       headers: {
-  //         Authorization: 'Bearer sk_live_615d856adfdf251803d6a3ff615d856adfdf251803d6a400'
-  //       },
-  //     };
-
-  //     const { data } = await axios.get(`https://api-staging.getwallets.co/v1/wallets`, config);
-
-  //     setWalletData((prev) => ({ ...prev, loading: false, data: data.data }));
-  //   }
-
-  //   getData();
-  // }, []);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     if(data) {
       setWalletData(JSON.parse(localStorage.getItem('user_wallet_data')));
     }
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
-    // regular expression to validate email
+    const user_data = JSON.parse(localStorage.getItem('user_data'));
+
+    if(user_data) {
+      try {
+        const decoded = jwt.verify(user_data.token, process.env.REACT_APP_JWT_SECRET);
+        if(decoded) {
+          console.log('token exists');
+        }
+      } catch (error) {
+        if(error && error.message === 'jwt expired') {
+          navigate('/sign-in');
+        }
+      }
+    } else {
+      navigate('/sign-in');
+    }
+  }, []);
+
+  useEffect(() => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
     if(re.test(String(email).toLowerCase())) {
@@ -61,7 +67,7 @@ const Home = () => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: 'Bearer sk_live_615d856adfdf251803d6a3ff615d856adfdf251803d6a400'
+        Authorization: `Bearer ${process.env.REACT_APP_SECRET_KEY}`
       },
     };
 
@@ -71,10 +77,8 @@ const Home = () => {
       setLoading(false);
       setEmail('');
       setShowModal(false);
-      // navigate('/create');
 
       if(user_wallet_data) {
-        console.log(user_wallet_data);
         user_wallet_data.push(data.data);
         localStorage.setItem('user_wallet_data', JSON.stringify(user_wallet_data));
         setData(user_wallet_data);
@@ -83,8 +87,6 @@ const Home = () => {
         setData(data.data)
       }
     }
-
-    // setWalletData((prev) => ({ ...prev, loading: false, data: data.data }));
   }
 
   return (
@@ -109,10 +111,10 @@ const Home = () => {
           </div>
         </div>
       }
-      <Sidebar />
-      <Main setShowModal={setShowModal} walletData={walletData} />
+      {showSidebar && <SidebarMobile setShowSidebar={setShowSidebar} />}
+      <Main setShowModal={setShowModal} setShowSidebar={setShowSidebar} walletData={walletData} />
     </div>
   )
 }
 
-export default Home
+export default Home;

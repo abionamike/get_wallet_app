@@ -1,12 +1,17 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { useParams } from "react-router-dom"
-import Button from "../components/button";
-import Sidebar from "../components/sidebar";
-import styles from "./create.module.css"
+import Button from "../../components/button";
+import SidebarMobile from "../../components/sidebarMobile";
+import styles from "./transactionHistory.module.css";
+import jwt from 'jsonwebtoken';
+import { useNavigate } from 'react-router-dom';
 
-const Create = () => {
+const TransactionHistory = () => {
+  const navigate = useNavigate();
+  
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -14,6 +19,8 @@ const Create = () => {
   const [currency, setCurrency] = useState('');
   const [transactionHistoryData, setTransactionHistoryData] = useState({ loading: false, data: null });
   const [loading, setLoading] = useState(false);
+
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     if(id) {
@@ -23,7 +30,7 @@ const Create = () => {
         const config = {
           headers: {
             Accept: 'application/json',
-            Authorization: 'Bearer sk_live_615d856adfdf251803d6a3ff615d856adfdf251803d6a400'
+            Authorization: `Bearer ${process.env.REACT_APP_SECRET_KEY}`
           },
         };
   
@@ -36,9 +43,24 @@ const Create = () => {
     }
   }, [id, loading]);
 
-  if(transactionHistoryData.data) {
-    console.log(transactionHistoryData.data);
-  }
+  useEffect(() => {
+    const user_data = JSON.parse(localStorage.getItem('user_data'));
+
+    if(user_data) {
+      try {
+        const decoded = jwt.verify(user_data.token, process.env.REACT_APP_JWT_SECRET);
+        if(decoded) {
+          console.log('token exists');
+        }
+      } catch (error) {
+        if(error && error.message === 'jwt expired') {
+          navigate('/sign-in');
+        }
+      }
+    } else {
+      navigate('/sign-in');
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +70,7 @@ const Create = () => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer sk_live_615d856adfdf251803d6a3ff615d856adfdf251803d6a400'
+        Authorization: `Bearer ${process.env.REACT_APP_SECRET_KEY}`
       },
     };
 
@@ -112,8 +134,11 @@ const Create = () => {
           </div>
         </div>
       }
-      <Sidebar />
+      {showSidebar && <SidebarMobile setShowSidebar={setShowSidebar} />}
       <div className={styles.main}>
+        <div className="hamburger">
+          <GiHamburgerMenu fontSize="22px" style={{ cursor: 'pointer' }} onClick={() => setShowSidebar(true)} />
+        </div>
         <div className={styles.heading}>
           <h1>Transaction History</h1>
           <Button onClick={() => setShowModal(true)}>Fund Your Wallet</Button>
@@ -124,33 +149,35 @@ const Create = () => {
           </div>
         }
         {transactionHistoryData.data && !transactionHistoryData.loading &&
-          <table>
-            {" "}
-            <thead>
-              <tr>
-                <th>Status</th>
-                <th>Amount</th>
-                <th>Wallet ID</th>
-                <th>Funding Method</th>
-                <th>Type</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[].concat(transactionHistoryData.data).reverse().map((item) => (
-                <tr key={item.wallet_id} className="table-row">
-                  <td>
-                    <span className="status">{item.status}</span>
-                  </td>
-                  <td>{item.currency === "NGN" ? "\u20A6" : "$"}{item.amount ? item.amount : 0}</td>
-                  <td>{item.wallet_id}</td>
-                  <td>{item.funding_method}</td>
-                  <td>{item.type}</td>
-                  <td>{dayjs(item.created_at).format('ddd MMM D, YYYY')}</td>
+          <div className="layer">
+            <table>
+              {" "}
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Amount</th>
+                  <th>Wallet ID</th>
+                  <th>Funding Method</th>
+                  <th>Type</th>
+                  <th>Date</th>
                 </tr>
-              ))}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {[].concat(transactionHistoryData.data).reverse().map((item) => (
+                  <tr key={item.wallet_id} className="table-row">
+                    <td>
+                      <span className="status">{item.status}</span>
+                    </td>
+                    <td>{item.currency === "NGN" ? "\u20A6" : "$"}{item.amount ? item.amount : 0}</td>
+                    <td>{item.wallet_id}</td>
+                    <td>{item.funding_method}</td>
+                    <td>{item.type}</td>
+                    <td>{dayjs(item.created_at).format('ddd MMM D, YYYY')}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
         }
         {!transactionHistoryData.data && !transactionHistoryData.loading &&
           <div className={styles["not-found"]}>
@@ -163,4 +190,4 @@ const Create = () => {
   )
 }
 
-export default Create
+export default TransactionHistory;

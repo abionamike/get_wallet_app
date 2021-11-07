@@ -1,12 +1,16 @@
-.sidebar {
-  flex: 1;
+.sidebar-mobile {
   background: #0079ff;
   height: 100vh;
-  position: sticky;
+  width: 250px;
+  position: absolute;
   top: 0;
   left: 0;
+  bottom: 0;
   color: #fff;
-  z-index: 999;
+  z-index: 100;
+  transform: translate(0, 0);
+  transition: ease-in-out;
+  transition-duration: 700ms;
 }
 
 .content {
@@ -19,15 +23,12 @@
   padding: 0 20px;
   border-bottom: 1px solid #f0f0f0;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 }
 
 .tab {
   flex: 8;
-  /* padding-top: 100px; */
-  /* display: flex; */
-  /* align-items: center; */
 }
 
 .tab > p {
@@ -59,3 +60,9 @@
 .logout > p {
   cursor: pointer;
 }
+/* 
+@media screen and (max-width: 1200px) { 
+  .sidebar {
+    display: none;
+  }
+} */
