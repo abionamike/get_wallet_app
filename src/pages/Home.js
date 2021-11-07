@@ -1,15 +1,12 @@
 import axios from "axios";
-import jwt from "jsonwebtoken";
 import { useEffect, useState } from "react";
 import Button from "../components/button";
 import Main from "../components/main";
 import Sidebar from "../components/sidebar";
-import generateToken from "../utils/generateToken";
 import { useNavigate } from 'react-router-dom';
 import styles from './home.module.css';
 
 const Home = () => {
-  const navigate = useNavigate();
 
   const user_wallet_data = JSON.parse(localStorage.getItem('user_wallet_data'));
 
@@ -19,23 +16,23 @@ const Home = () => {
   const [walletData, setWalletData] = useState({ loading: false, data: null });
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const getData = async () => {
-      setWalletData((prev) => ({  ...prev, loading: true }));
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     setWalletData((prev) => ({  ...prev, loading: true }));
 
-      const config = {
-        headers: {
-          Authorization: 'Bearer sk_live_615d856adfdf251803d6a3ff615d856adfdf251803d6a400'
-        },
-      };
+  //     const config = {
+  //       headers: {
+  //         Authorization: 'Bearer sk_live_615d856adfdf251803d6a3ff615d856adfdf251803d6a400'
+  //       },
+  //     };
 
-      const { data } = await axios.get(`https://api-staging.getwallets.co/v1/wallets`, config);
+  //     const { data } = await axios.get(`https://api-staging.getwallets.co/v1/wallets`, config);
 
-      setWalletData((prev) => ({ ...prev, loading: false, data: data.data }));
-    }
+  //     setWalletData((prev) => ({ ...prev, loading: false, data: data.data }));
+  //   }
 
-    getData();
-  }, []);
+  //   getData();
+  // }, []);
 
   useEffect(() => {
     // regular expression to validate email
@@ -79,7 +76,7 @@ const Home = () => {
       }
     }
 
-    setWalletData((prev) => ({ ...prev, loading: false, data: data.data }));
+    // setWalletData((prev) => ({ ...prev, loading: false, data: data.data }));
   }
 
   return (
