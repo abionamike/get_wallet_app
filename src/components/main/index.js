@@ -13,6 +13,7 @@ const Main = ({ setShowModal, walletData }) => {
         <h1>Wallets</h1>
         <Button onClick={() => setShowModal(true)}>Create New Wallet</Button>
       </div>
+      <div className="table-container">
       {walletData &&
         <table>
           {" "}
@@ -42,6 +43,7 @@ const Main = ({ setShowModal, walletData }) => {
         </tbody>
       </table>
     }
+    </div>
     {!walletData &&
       <div className="not-found">
         <p>You have no Wallet Data.</p>

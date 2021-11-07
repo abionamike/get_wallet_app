@@ -71,3 +71,15 @@ td,th {
   font-weight: 500;
   margin-bottom: 20px;
 }
+
+@media screen and (max-width: 900px) {
+  .table-container {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .table-container > table {
+    width: 1000px;
+  }
+}
