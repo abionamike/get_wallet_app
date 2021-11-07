@@ -124,13 +124,14 @@ const TransactionHistory = () => {
             </div>
             <h2>Fund Created Successfully!</h2>
             <p className={styles.invoice}>Invoice generated:</p>
-            <div className={styles.invoice_data}>
-              <p>Status: {transactionHistoryData.data[transactionHistoryData.data.length - 1].status}</p>
-              <p>Amount: {transactionHistoryData.data[transactionHistoryData.data.length - 1].currency === "NGN" ? "\u20A6" : "$"}{transactionHistoryData.data[transactionHistoryData.data.length - 1].amount}</p>
-              <p>Wallet ID: {transactionHistoryData.data[transactionHistoryData.data.length - 1].wallet_id}</p>
-              <p>Fund Method: {transactionHistoryData.data[transactionHistoryData.data.length - 1].funding_method}</p>
-              <p>Type: {transactionHistoryData.data[transactionHistoryData.data.length - 1].type}</p>
-            </div>
+            {transactionHistoryData.data &&
+              <div className={styles.invoice_data}>
+                <p>Status: {transactionHistoryData.data[transactionHistoryData.data.length - 1].status}</p>
+                <p>Amount: {transactionHistoryData.data[transactionHistoryData.data.length - 1].currency === "NGN" ? "\u20A6" : "$"}{transactionHistoryData.data[transactionHistoryData.data.length - 1].amount}</p>
+                <p>Wallet ID: {transactionHistoryData.data[transactionHistoryData.data.length - 1].wallet_id}</p>
+                <p>Fund Method: {transactionHistoryData.data[transactionHistoryData.data.length - 1].funding_method}</p>
+                <p>Type: {transactionHistoryData.data[transactionHistoryData.data.length - 1].type}</p>
+              </div>}
           </div>
         </div>
       }
