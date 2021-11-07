@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Button from "../components/button";
 import Main from "../components/main";
 import Sidebar from "../components/sidebar";
-import { useNavigate } from 'react-router-dom';
 import styles from './home.module.css';
 
 const Home = () => {
@@ -13,7 +12,6 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [inValidEmail, setInValidEmail] = useState(false);
-  const [walletData, setWalletData] = useState({ loading: false, data: null });
   const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
