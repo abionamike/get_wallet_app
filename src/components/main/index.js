@@ -32,7 +32,7 @@ const Main = ({ setShowModal, walletData }) => {
                 <td>
                   <span className="status">{item.status}</span>
                 </td>
-                <td>{"\u20A6"}{item.balance.toFixed(2)}</td>
+                <td>{"\u20A6"}{item.balance}</td>
                 <td>{item.wallet_id}</td>
                 <td>{item.customer_email}</td>
                 <td>{dayjs(item.created_at).format('ddd MMM D, YYYY')}</td>

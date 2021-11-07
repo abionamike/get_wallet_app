@@ -6,13 +6,12 @@ import Sidebar from "../components/sidebar";
 import styles from './home.module.css';
 
 const Home = () => {
-
-  const user_wallet_data = JSON.parse(localStorage.getItem('user_wallet_data'));
-
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [inValidEmail, setInValidEmail] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [walletData, setWalletData] = useState(JSON.parse(localStorage.getItem('user_wallet_data')));
 
   // useEffect(() => {
   //   const getData = async () => {
@@ -33,6 +32,12 @@ const Home = () => {
   // }, []);
 
   useEffect(() => {
+    if(data) {
+      setWalletData(JSON.parse(localStorage.getItem('user_wallet_data')));
+    }
+  }, [data])
+
+  useEffect(() => {
     // regular expression to validate email
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
@@ -47,6 +52,8 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let user_wallet_data = JSON.parse(localStorage.getItem('user_wallet_data'));
 
     setLoading(true);
 
@@ -67,10 +74,13 @@ const Home = () => {
       // navigate('/create');
 
       if(user_wallet_data) {
-        user_wallet_data.push(...data.data);
+        console.log(user_wallet_data);
+        user_wallet_data.push(data.data);
         localStorage.setItem('user_wallet_data', JSON.stringify(user_wallet_data));
+        setData(user_wallet_data);
       } else {
         localStorage.setItem('user_wallet_data', JSON.stringify([data.data]));
+        setData(data.data)
       }
     }
 
@@ -100,7 +110,7 @@ const Home = () => {
         </div>
       }
       <Sidebar />
-      <Main setShowModal={setShowModal} walletData={user_wallet_data} />
+      <Main setShowModal={setShowModal} walletData={walletData} />
     </div>
   )
 }
